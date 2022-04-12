@@ -58,20 +58,28 @@ class Metrics {
     }
   }
   
-  void recordBirth(int tk, Bloop mum, Bloop kid) {
+  void recordBirth(int tk, String mumName, String kidName) {
     
     TableRow bGene = grelData.addRow();
-    bGene.setString("Parent", mum.name);
-    bGene.setString("Child", kid.name);
+    bGene.setString("Parent", mumName);
+    bGene.setString("Child", kidName);
     
     TableRow bCert = gverData.addRow();
-    bCert.setString("Name", kid.name);
+    bCert.setString("Name", kidName);
     bCert.setInt("Born", tk); 
   }
   
-  void recordDeath(int tk, Bloop b) {
+  void recordDeath(int tk, String bName) {
     // find the deceased 
-    TableRow bCert = gverData.findRow("name", b.name);
+    println(tk,bName);
+    TableRow bCert = gverData.findRow(bName,"name");
     bCert.setInt("Died", tk );
   }  
+  
+  void writeData() {
+    saveTable(wrldData,"world.csv");
+    saveTable(bugData,"creature.csv");
+    saveTable(grelData,"geneedges.csv");
+    saveTable(gverData,"geneverts.csv");
+  }
 }

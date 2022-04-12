@@ -15,7 +15,8 @@
 // 4/8 - try using table() for data output
 
 World world;
-Name namer;  // generate little snowflak names
+Name namer;         // generate little snowflak names
+Metrics datastore;
 
 void setup() {
   size(800, 200);  //display size
@@ -23,6 +24,8 @@ void setup() {
   // name geneerator init
   namer = new Name();
   println(namer.getName());
+  
+  datastore = new Metrics();
   
   // World starts with 20 creatures
   // and 20 pieces of food

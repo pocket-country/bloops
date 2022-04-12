@@ -4,7 +4,7 @@
 
 class Name { 
   
-  /// so don't duplicate.
+  // so don't duplicate.
   // maybe hash off clock if this eats too much memory
   StringDict listOnames;
   
@@ -17,6 +17,7 @@ class Name {
   }
   String getName() {
     String name;
+    // or build a markov chain based name generator ...
     while (true) { //omg this looks dangerous
       name = randomLetter() + randomLetter() + randomLetter() + randomLetter();
       if (listOnames.hasKey(name) != true) {

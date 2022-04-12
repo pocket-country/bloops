@@ -10,7 +10,7 @@ class World {
 
   ArrayList<Bloop> bloops;    // An arraylist for all the creatures
   Food food;
- 
+
   // for metrics need a concept of time.  Could use frame?
   // using 'tick' from NetLogo
   int tick;
@@ -22,7 +22,7 @@ class World {
     // big bang at time = 0
     tick = 0;
     decaTick = 0;  // don't have to log every iteration ...
-    
+
     // Start with initial food and creatures
     food = new Food(num);
     
@@ -31,7 +31,12 @@ class World {
     for (int i = 0; i < num; i++) {
       PVector l = new PVector(random(width),random(height));
       DNA dna = new DNA();
-      bloops.add(new Bloop(l,dna,"a"+str(i)));  //only orig names start lower case and have digits
+      
+      bloops.add(new Bloop(l,dna,"a"+str(100+i)));  //only orig names start lower case and have digits
+      // next line didn't work why?
+      // datastore.recordBirth(tick, bloops[i].parent, bloops[i].name);
+      Bloop b = bloops.get(i);
+      datastore.recordBirth(tick, b.parent, b.name ); 
     }
   }  //end constructor
     
@@ -39,6 +44,8 @@ class World {
   // used on mouse click to create a new creaturee
   // commented this out to make parent work, 
   // how to figure parent for a mouse click?
+  // also attached something else to onClick.
+  // itching to refactor a general birth meethod to use in init and below
   // void born(float x, float y) {
   //   PVector l = new PVector(x,y);
   //   DNA dna = new DNA();
@@ -47,14 +54,15 @@ class World {
 
   // Run the world - Note there is an implicit loop here
   void run() {
-    // update tick(time)
+    // update time
     tick += 1;
     if ( tick % 60 == 0 ) { 
       println( tick );
       decaTick += 1;
-      gatherWData();
-      gatherCData();
     }
+    // gather data;
+    datastore.gatherWorldData(tick, bloops, food);
+    datastore.gatherCreatureData(tick, bloops);
     
     // Deal with food
     food.run();
@@ -67,12 +75,16 @@ class World {
       b.eat(food);
       // If it's dead, kill it and make food
       if (b.dead()) {
+        datastore.recordDeath(tick, b.name);
         bloops.remove(i);
         food.add(b.location);
       }
       // Perhaps this bloop would like to make a baby?
       Bloop child = b.reproduce();
-      if (child != null) bloops.add(child);
+      if (child != null) { 
+          bloops.add(child);
+          datastore.recordBirth( tick, b.name, child.name );
+       }
     }
       
     // Limit runs to xx,xxx iterations for development purposes.
@@ -80,9 +92,8 @@ class World {
     // Alternate mechanism would include a keypress or
     // ultimatly, figuring out how to build an 'on exit' function
     // (the documeentation for this latter is not clear ... write an exit() function calling super.exit()?)
-    if ( tick == 600 ) {
-      saveTable(wTable,"world.csv");
-      saveTable(cTable,"creature.csv");
+    if ( tick == 6000 ) {
+      datastore.writeData();
       exit();
     }
   }
