@@ -16,10 +16,6 @@ class World {
   int tick;
   int decaTick;
   
-  //PrintWriter log;  // out log file
-  Table wTable;       // table for world level data
-  Table cTable;       // table for creature level data
-  
   // Constructor
   World(int num) {
     
@@ -27,17 +23,6 @@ class World {
     tick = 0;
     decaTick = 0;  // don't have to log every iteration ...
     
-    wTable = new Table();
-    wTable.addColumn("tick");
-    wTable.addColumn("bcount");
-    wTable.addColumn("fcount");
-    
-    cTable = new Table();
-    cTable.addColumn("tick");
-    cTable.addColumn("name");
-    cTable.addColumn("age");
-    cTable.addColumn("health");
-
     // Start with initial food and creatures
     food = new Food(num);
     
@@ -49,33 +34,7 @@ class World {
       bloops.add(new Bloop(l,dna,"a"+str(i)));  //only orig names start lower case and have digits
     }
   }  //end constructor
-  
-  void gatherWData() { 
     
-    TableRow dRow = wTable.addRow();
-    // state of the world
-    dRow.setInt("tick",tick);
-    dRow.setInt("bcount", bloops.size());
-    dRow.setInt("fcount", food.countFood());
-  }
-  
-  void gatherCData() {
-     // get bloop metrics prior to update ... again pass in a record object?  Dude, how do we do that?
-     // not piggybacking on 'for each' in run method.  I expect we can afford the time
-     // to loop through the data twice and it makes code clearer
-     for ( int i = 0; i < bloops.size(); i++ ) {
-       Bloop b = bloops.get(i);
-
-       TableRow cRow = cTable.addRow();
-       cRow.setInt("tick",tick);
-       cRow.setString("name", b.name);
-       cRow.setString("parent",b.parent);  
-       cRow.setInt("age", b.age);
-       cRow.setFloat("health", b.health);
-     }
-  }
-  
-
   // Make a new creature
   // used on mouse click to create a new creaturee
   // commented this out to make parent work, 
