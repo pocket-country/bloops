@@ -2,6 +2,8 @@
 // Daniel Shiffman <http://www.shiffman.net>
 // The Nature of Code
 
+// Examples code from ch9 modified by William Robb April 2022
+
 // A World of creatures that eat food
 // The more they eat, the longer they survive
 // The longer they survive, the more likely they are to reproduce

@@ -1,6 +1,7 @@
 // Evolution EcoSystem
 // Daniel Shiffman <http://www.shiffman.net>
 // Spring 2007, The Nature of Code
+// Mod wrobb 2022
 
 // The World we live in
 // Has bloops and food
@@ -26,23 +27,14 @@ class World {
     tick = 0;
     decaTick = 0;  // don't have to log every iteration ...
     
-    // open a stream for logging
-    // write header for .csv
-    //log = createWriter("first.log");
-    //log.println("\"Tick\",\"bcount\",\"avgHealth\"");
-    // try using the built ni table data structure
     wTable = new Table();
     wTable.addColumn("tick");
     wTable.addColumn("bcount");
     wTable.addColumn("fcount");
-    // should this be set up in creature?
-    // no causee is for population of creatures, but ...
-    // yes cause col names should match creature internal data
-    // if I knew enought about objects I would pass table to creature to init?
+    
     cTable = new Table();
     cTable.addColumn("tick");
     cTable.addColumn("name");
-    cTable.addColumn("parent");  // write this out each time?  s.b. a sep. data strucure (write a btree! JSON! Whoo!
     cTable.addColumn("age");
     cTable.addColumn("health");
 
@@ -61,8 +53,6 @@ class World {
   void gatherWData() { 
     
     TableRow dRow = wTable.addRow();
-    //log.print(tick+",");
-    //log.print(str(bloops.size())+",");
     // state of the world
     dRow.setInt("tick",tick);
     dRow.setInt("bcount", bloops.size());
@@ -71,7 +61,6 @@ class World {
   
   void gatherCData() {
      // get bloop metrics prior to update ... again pass in a record object?  Dude, how do we do that?
-     
      // not piggybacking on 'for each' in run method.  I expect we can afford the time
      // to loop through the data twice and it makes code clearer
      for ( int i = 0; i < bloops.size(); i++ ) {
@@ -133,8 +122,6 @@ class World {
     // ultimatly, figuring out how to build an 'on exit' function
     // (the documeentation for this latter is not clear ... write an exit() function calling super.exit()?)
     if ( tick == 600 ) {
-      // log.flush();
-      // log.close();
       saveTable(wTable,"world.csv");
       saveTable(cTable,"creature.csv");
       exit();

@@ -1,5 +1,6 @@
 // Evolution EcoSystem
 // Daniel Shiffman <http://www.shiffman.net>
+// Mod wrobb
 
 // Class to describe DNA
 // Has more features for two parent mating (not used in this example)
