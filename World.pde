@@ -20,7 +20,7 @@ class World {
   World(int num) {
     
     // big bang at time = 0
-    tick = 0;
+    tick = 1;
     decaTick = 0;  // don't have to log every iteration ...
 
     // Start with initial food and creatures

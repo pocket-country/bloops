@@ -1,0 +1,6 @@
+#library(readr)
+creature <- read_csv("creature.csv")
+# big table don't view ... 
+# subset by tick the old fashiond r way ...
+# currently data only starts at 2, why?
+this_gen <- creature[creature$tick == 2,]  

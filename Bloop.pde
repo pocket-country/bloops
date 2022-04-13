@@ -34,7 +34,7 @@ class Bloop {
     maxspeed = map(dna.genes[0], 0, 1, 15, 0);
     r = map(dna.genes[0], 0, 1, 0, 50);
     
-    // record parent
+    // record parent  actually should be parentName
     parent = parent_;
     
     // oh and we get to pick a name, what do you think dear?

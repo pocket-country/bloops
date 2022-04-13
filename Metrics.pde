@@ -59,20 +59,33 @@ class Metrics {
   }
   
   void recordBirth(int tk, String mumName, String kidName) {
+    TableRow bCert;
     
+    //record parent child relationship
     TableRow bGene = grelData.addRow();
     bGene.setString("Parent", mumName);
     bGene.setString("Child", kidName);
     
-    TableRow bCert = gverData.addRow();
+    // record kid in pop (vert) table
+    bCert = gverData.addRow();
     bCert.setString("Name", kidName);
     bCert.setInt("Born", tk); 
+    
+    // if 'virgin birth' also add parent, as this means child was
+    // born of God, not a Bloop.  We need this entry in the veretice table for graphing in R
+    // Note we are basing this off a naming convention, so, ... be careful, potential bug waiting to happen
+    if ( mumName.substring(0,1).equals("a")) {
+      bCert = gverData.addRow();
+      bCert.setString("Name", mumName);
+      bCert.setInt("Born", 0); 
+      //these are weird immortal beings which never die either.
+      bCert.setInt("Died",0);
+    }
   }
   
   void recordDeath(int tk, String bName) {
     // find the deceased 
-    println(tk,bName);
-    TableRow bCert = gverData.findRow(bName,"name");
+    TableRow bCert = gverData.findRow(bName,"Name");
     bCert.setInt("Died", tk );
   }  
   

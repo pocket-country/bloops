@@ -13,7 +13,7 @@
 
 
 // 4/8 - try using table() for data output
-
+// DATA FILE FOR CREATURES STARTS AT TICK 2!
 World world;
 Name namer;         // generate little snowflak names
 Metrics datastore;
@@ -23,7 +23,6 @@ void setup() {
   
   // name geneerator init
   namer = new Name();
-  println(namer.getName());
   
   datastore = new Metrics();
   
